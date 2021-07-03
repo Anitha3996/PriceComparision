@@ -1,32 +1,26 @@
 package TestScripts;
-
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import BaseClass.BaseClass;
 import TestMethods.AmazonHomePageTest;
-import TestMethods.AmazonProductPageTest;
 import TestMethods.FlipkartHomePageTest;
-import TestMethods.FlipkartProductPageTest;
 import utils.CommonUtility;
 
 public class TestScripts extends BaseClass {
 	FlipkartHomePageTest objFlipkartHomeTest;
-	FlipkartProductPageTest objFlipkartProductTest;
 	AmazonHomePageTest objAmazonHomeTest;
-	AmazonProductPageTest objAmazonProductTest;
+	
 	CommonUtility commonutil;
 	
 	public  TestScripts() {
 		objFlipkartHomeTest = new FlipkartHomePageTest ();
-		objFlipkartProductTest= new FlipkartProductPageTest();
 		objAmazonHomeTest=new AmazonHomePageTest();
-		objAmazonProductTest=new AmazonProductPageTest();
 		commonutil=new CommonUtility();
 	}
 	
 	
-	@BeforeClass
+	@BeforeMethod
 	 public void browserSetUp() {
 		 BaseClass.initialiation();
 	}
@@ -38,38 +32,41 @@ public class TestScripts extends BaseClass {
 	{  
 		objFlipkartHomeTest.launchFlipkartApplication();
 		objFlipkartHomeTest.SearchProduct("PHILIPS HP8100/46 Hair Dryer");
-		objFlipkartProductTest.getSelectedProductPrice();
-		 Float Price = objFlipkartProductTest.printSelectedProductPrice();
-		System.out.println("Flipkart : Selected Product Price before adding to Cart---->"+Price);
-		objFlipkartProductTest.addProductToCart();
-		objFlipkartProductTest.increaseProductQuantity();
-		Float NewPrice=objFlipkartProductTest.printSelectedProductPriceAfterAddingNewQuantity();
-		System.out.println("Total Price after adding oe more product---->"+NewPrice);
-		
-		
-	}
+		objFlipkartHomeTest.getSelectedProductPrice();
+		Float FlipkartProductPrice=objFlipkartHomeTest.printSelectedProductPrice();
+		System.out.println("Flipkart: Selected Product Price BEFORE adding to Cart---->"+FlipkartProductPrice);
+		objFlipkartHomeTest.addProductToCart();
+		objFlipkartHomeTest.increaseProductQuantity();
+		Float newPriceInCart=objFlipkartHomeTest.printSelectedProductPriceAfterAddingNewQuantity();
+		System.out.println("Flipkart: Selected Product Price AFTER adding to Cart---->"+newPriceInCart);
+		}
 	
 	@Test(priority = 2 , description = "Validation of Price Comparision in Amazon and Flipkart Application ") 
 	public void PriceComparision() {
 		objFlipkartHomeTest.launchFlipkartApplication();
 		objFlipkartHomeTest.SearchProduct("PHILIPS HP8100/46 Hair Dryer");
-		objFlipkartProductTest.getSelectedProductPrice();
-		 Float Price = objFlipkartProductTest.printSelectedProductPrice();
-		 System.out.println("Flipkart: Selected Product Price before adding to Cart---->"+Price);
-		objFlipkartProductTest.addProductToCart();
-		Float FlipkartProductPrice=objFlipkartProductTest.printSelectedProductPriceAfterAddingNewQuantity();
-		System.out.println("Flipkart Selected Product Price after adding to Cart---->"+FlipkartProductPrice);
+		objFlipkartHomeTest.getSelectedProductPrice();
+		Float FlipkartProductPrice=objFlipkartHomeTest.printSelectedProductPrice();
+		System.out.println("Flipkart: Selected Product Price BEFORE adding to Cart---->"+FlipkartProductPrice);
+		objFlipkartHomeTest.addProductToCart();
+		Float newPriceInCart=objFlipkartHomeTest.printSelectedProductPriceAfterAddingNewQuantity();
+		System.out.println("Flipkart: Selected Product Price in Cart---->"+newPriceInCart);
 		objAmazonHomeTest.launchAmazonApplication();
 		objAmazonHomeTest.SearchProduct("PHILIPS HP8100/46 Hair Dryer");
-		objAmazonProductTest.getSelectedProductPrice();
-		Float price=objAmazonProductTest.printSelectedProductPrice();
+		objAmazonHomeTest.getSelectedProductPrice();
+		Float price=objAmazonHomeTest.printSelectedProductPrice();
 		System.out.println("Amazon: Selected Product Price before adding to Cart---->"+price);
-		objAmazonProductTest.addProductToCart();
-		objAmazonProductTest.getSelectedProductPriceinCart();
-		Float AmazonProductPrice = objAmazonProductTest.printSelectedProductPrice();
-		objAmazonProductTest.addProductToCart();
+		objAmazonHomeTest.addProductToCart();
+		objAmazonHomeTest.getSelectedProductPriceinCart();
+		Float AmazonProductPrice = objAmazonHomeTest.printSelectedProductPriceinCart();
 		System.out.println("Amazon: Selected Product Price after adding to Cart---->"+AmazonProductPrice);
-		commonutil.comparePrices(FlipkartProductPrice, AmazonProductPrice);
+		CommonUtility.comparePrices(FlipkartProductPrice, AmazonProductPrice);
+		
+	}
+	
+	@AfterMethod
+	 public void closeBrowser() {
+		 driver.quit();
 	}
 	}
 

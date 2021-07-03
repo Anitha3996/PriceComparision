@@ -7,7 +7,7 @@
         <methods>
           <include name="browserSetUp"/>
           <include name="FlipkartTestCase"/>
-          <include name="PriceComparision"/>
+          <include name="closeBrowser"/>
         </methods>
       </class> <!-- TestScripts.TestScripts -->
     </classes>
