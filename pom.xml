@@ -3,14 +3,7 @@
   <groupId>smallCase</groupId>
   <artifactId>smallCase</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
-  <dependencies>
-  
-  <dependency>
-<groupId>io.github.bonigarcia</groupId>
-<artifactId>webdrivermanager</artifactId>
-<version>3.6.1</version>
-	  <build>
+  <build>
    <plugins>        
             <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -33,6 +26,13 @@
       </plugin>
     </plugins>
   </build>
+ 
+  <dependencies>
+  
+  <dependency>
+<groupId>io.github.bonigarcia</groupId>
+<artifactId>webdrivermanager</artifactId>
+<version>3.6.1</version>
 </dependency>
 
 <dependency>
